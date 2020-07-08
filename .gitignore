@@ -169,9 +169,7 @@ AppPackages/
 !*.[Cc]ache/
 
 # SQL Server files
-*.mdf
-*.ldf
-*.ndf
+
 # Others
 ClientBin/
 [Ss]tyle[Cc]op.*
