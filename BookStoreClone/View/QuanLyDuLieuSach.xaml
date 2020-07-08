@@ -1,0 +1,775 @@
+﻿<UserControl
+    x:Class="BookStoreClone.View.QuanLyDuLieuSach"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:BookStoreClone.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    DataContext="{StaticResource QuanLyDuLieuSachVM}"
+    mc:Ignorable="d">
+    <DockPanel>
+
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+            <materialDesign:Card Margin="5" Visibility="{Binding VisibilityCardTacGia, UpdateSourceTrigger=PropertyChanged}">
+                <Expander
+                    x:Name="expanderTacGia"
+                    ExpandDirection="Left"
+                    IsExpanded="{Binding ShowExpanderTacGia, UpdateSourceTrigger=PropertyChanged}">
+
+                    <Expander.Header>
+                        <TextBlock
+                            Margin="0,0,0,0"
+                            RenderTransformOrigin=".5,.5"
+                            Text="Quản lý tác giả">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="270" />
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+                    <DockPanel
+                        Margin="0"
+                        LastChildFill="True"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                        <TextBlock
+                            Margin="10"
+                            DockPanel.Dock="Top"
+                            Text="Quản lý tác giả" />
+
+                        <materialDesign:ColorZone
+                            Margin="10,0,10,10"
+                            Padding="8,4,8,4"
+                            Panel.ZIndex="1"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                            CornerRadius="2"
+                            DockPanel.Dock="Top"
+                            Mode="Standard">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="AccountSearch" Opacity=".56" />
+                                </Button>
+                                <TextBox
+                                    Grid.Column="1"
+                                    MinWidth="200"
+                                    Margin="8,0,0,0"
+                                    VerticalAlignment="Center"
+                                    materialDesign:HintAssist.Hint="Tìm kiếm tác giả"
+                                    materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                    BorderThickness="0"
+                                    Text="{Binding TextTimKiemTacGia, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </materialDesign:ColorZone>
+
+                        <DockPanel DockPanel.Dock="Bottom">
+                            <Button
+                                x:Name="btnThemTacGia"
+                                Command="{Binding ThemTacGiaCommand}"
+                                CommandParameter="{Binding ElementName=btnThemTacGia}"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="Thêm tác giả">
+                                <materialDesign:PackIcon
+                                    Width="24"
+                                    Height="24"
+                                    Kind="Add" />
+                            </Button>
+                            <TextBox
+                                Margin="10"
+                                VerticalAlignment="Top"
+                                materialDesign:HintAssist.Hint="Nhập tác giả"
+                                AcceptsReturn="True"
+                                DockPanel.Dock="Bottom"
+                                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                Text="{Binding TextThemTacGia, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
+                        </DockPanel>
+
+                        <ScrollViewer Padding="10,0,10,0">
+                            <DataGrid
+                                x:Name="dataTacGia"
+                                Margin="10,0,10,10"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserSortColumns="True"
+
+                                HeadersVisibility="All"
+                                HorizontalScrollBarVisibility="Disabled"
+                                ItemsSource="{Binding ListTacGia, UpdateSourceTrigger=PropertyChanged}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding LoadListTacGia}" CommandParameter="{Binding ElementName=dataTacGia}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="CellEditEnding">
+                                        <i:InvokeCommandAction Command="{Binding CellChange}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Binding="{Binding TenTG}"
+                                        Header="Tác giả"
+                                        IsReadOnly="False" />
+
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button
+                                                        Width="25"
+                                                        Height="25"
+                                                        Margin="5"
+                                                        Command="{Binding AddTacGiaVaoSachCommand}"
+                                                        CommandParameter="{Binding ElementName=dataTacGia}"
+                                                        DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                                        ToolTip="Thêm tác giả vào sách">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="20"
+                                                            Height="20"
+                                                            Kind="ArrowLeft" />
+                                                    </Button>
+                                                    <Button
+                                                        Width="25"
+                                                        Height="25"
+                                                        Command="{Binding XoaTacGiaCommand}"
+                                                        CommandParameter="{Binding ElementName=dataTacGia}"
+                                                        DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                                        ToolTip="Xóa">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="20"
+                                                            Height="20"
+                                                            Kind="DeleteForever" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Expander>
+            </materialDesign:Card>
+            <materialDesign:Card Margin="5" Visibility="{Binding VisibilityCardTheLoai, UpdateSourceTrigger=PropertyChanged}">
+                <Expander
+                    x:Name="expanderTheLoai"
+                    ExpandDirection="Left"
+                    IsExpanded="{Binding ShowExpanderTheLoai, UpdateSourceTrigger=PropertyChanged}">
+                    <Expander.Header>
+                        <TextBlock RenderTransformOrigin=".5,.5" Text="Quản lý thể loại">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="270" />
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction Command="{Binding LoadPanelTheLoaiCommand}" CommandParameter="{Binding ElementName=pnlTheLoai}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <DockPanel
+                        Margin="0"
+                        LastChildFill="True"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                        <TextBlock
+                            Margin="10"
+                            DockPanel.Dock="Top"
+                            Text="Quản lý thể loại" />
+
+                        <materialDesign:ColorZone
+                            Margin="10,0,10,10"
+                            Padding="8,4,8,4"
+                            Panel.ZIndex="1"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                            CornerRadius="2"
+                            DockPanel.Dock="Top"
+                            Mode="Standard">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                                </Button>
+                                <TextBox
+                                    Grid.Column="1"
+                                    MinWidth="200"
+                                    Margin="8,0,0,0"
+                                    VerticalAlignment="Center"
+                                    materialDesign:HintAssist.Hint="Tìm kiếm thể loại"
+                                    materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                    BorderThickness="0"
+                                    Text="{Binding TextTimKiemTheLoai, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </materialDesign:ColorZone>
+
+                        <DockPanel DockPanel.Dock="Bottom">
+                            <Button
+                                x:Name="btnThemTheloai"
+                                Command="{Binding ThemTheLoaiCommand}"
+                                CommandParameter="{Binding ElementName=btnThemTheloai}"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="Thêm thể loại">
+                                <materialDesign:PackIcon
+                                    Width="24"
+                                    Height="24"
+                                    Kind="Add" />
+                            </Button>
+                            <TextBox
+                                Margin="10"
+                                VerticalAlignment="Top"
+                                materialDesign:HintAssist.Hint="Nhập thể loại"
+                                AcceptsReturn="True"
+                                DockPanel.Dock="Bottom"
+                                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                Text="{Binding TextThemTheLoai, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
+                        </DockPanel>
+
+                        <ScrollViewer>
+                            <DataGrid
+                                x:Name="dataTheLoai"
+                                Margin="10,0,10,10"
+                                Padding="10,0,10,0"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserSortColumns="True"
+
+                                HeadersVisibility="All"
+                                ItemsSource="{Binding ListTheLoai, UpdateSourceTrigger=PropertyChanged}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding LoadListTheLoai}" CommandParameter="{Binding ElementName=dataTheLoai}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="CellEditEnding">
+                                        <i:InvokeCommandAction Command="{Binding CellChange}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Binding="{Binding TenTL, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Thể loại"
+                                        IsReadOnly="False" />
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button
+                                                        Width="25"
+                                                        Height="25"
+                                                        Margin="5"
+                                                        Command="{Binding AddTheLoaiVaoSachCommand}"
+                                                        CommandParameter="{Binding ElementName=dataTheLoai}"
+                                                        DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                                        ToolTip="Thêm thể loại vào sách">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="20"
+                                                            Height="20"
+                                                            Kind="ArrowLeft" />
+                                                    </Button>
+                                                    <Button
+                                                        Width="25"
+                                                        Height="25"
+                                                        Command="{Binding XoaTheLoaiCommand}"
+                                                        CommandParameter="{Binding ElementName=dataTheLoai}"
+                                                        DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                                        ToolTip="Xóa">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="20"
+                                                            Height="20"
+                                                            Kind="DeleteForever" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Expander>
+            </materialDesign:Card>
+
+            <materialDesign:Card Margin="5" Visibility="{Binding VisibilityCardNhaXB, UpdateSourceTrigger=PropertyChanged}">
+                <Expander
+                    x:Name="expanderNhaXB"
+                    ExpandDirection="Left"
+                    IsExpanded="{Binding ShowExpanderNhaXB, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="Visible">
+                    <Expander.Header>
+                        <TextBlock RenderTransformOrigin=".5,.5" Text="Quản lý nhà xuất bản">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="270" />
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+
+                    <DockPanel
+                        Margin="0"
+                        LastChildFill="True"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                        <TextBlock
+                            Margin="10"
+                            DockPanel.Dock="Top"
+                            Text="Quản lý nhà xuất bản" />
+
+                        <materialDesign:ColorZone
+                            Margin="10,0,10,10"
+                            Padding="8,4,8,4"
+                            Panel.ZIndex="1"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                            CornerRadius="2"
+                            DockPanel.Dock="Top"
+                            Mode="Standard">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                                </Button>
+                                <TextBox
+                                    Grid.Column="1"
+                                    MinWidth="200"
+                                    Margin="8,0,0,0"
+                                    VerticalAlignment="Center"
+                                    materialDesign:HintAssist.Hint="Tìm kiếm nhà xuất bản"
+                                    materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                    BorderThickness="0"
+                                    Text="{Binding TextTimKiemNhaXB, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </materialDesign:ColorZone>
+
+                        <DockPanel DockPanel.Dock="Bottom">
+                            <Button
+                                x:Name="btnThemNhaXB"
+                                Command="{Binding ThemNhaXBCommand}"
+                                CommandParameter="{Binding ElementName=btnThemNhaXB}"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="Thêm nhà xuất bản">
+                                <materialDesign:PackIcon
+                                    Width="24"
+                                    Height="24"
+                                    Kind="Add" />
+                            </Button>
+                            <TextBox
+                                Margin="10"
+                                VerticalAlignment="Top"
+                                materialDesign:HintAssist.Hint="Nhập nhà xuất bản"
+                                AcceptsReturn="True"
+                                DockPanel.Dock="Bottom"
+                                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                Text="{Binding TextThemNhaXB, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
+                        </DockPanel>
+
+                        <ScrollViewer>
+                            <DataGrid
+                                x:Name="dataNXB"
+                                Margin="10,0,10,10"
+                                Padding="10,0,10,0"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserSortColumns="True"
+
+                                HeadersVisibility="All"
+                                ItemsSource="{Binding ListNXB}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding LoadListNXB}" CommandParameter="{Binding ElementName=dataNXB}" />
+                                    </i:EventTrigger>
+
+                                    <i:EventTrigger EventName="CellEditEnding">
+                                        <i:InvokeCommandAction Command="{Binding CellChange}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+
+                                        Binding="{Binding TenNXB, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Tên nhà xuất bản"
+                                        IsReadOnly="False" />
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button
+                                                        x:Name="btnAddNhaXBVaoSach"
+                                                        Width="25"
+                                                        Height="25"
+                                                        Margin="5"
+                                                        Command="{Binding AddNhaXBVaoSachCommand}"
+                                                        CommandParameter="{Binding ElementName=btnAddNhaXBVaoSach}"
+                                                        DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                                        ToolTip="Thêm nhà xuất bản vào sách">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="20"
+                                                            Height="20"
+                                                            Kind="ArrowLeft" />
+                                                    </Button>
+                                                    <!--<Button
+                                                        Width="25"
+                                                        Height="25"
+                                                        Command="{Binding XoaNhaXBCommand}"
+                                                        DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                                        ToolTip="Xóa">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="20"
+                                                            Height="20"
+                                                            Kind="DeleteForever" />
+                                                    </Button>-->
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Expander>
+            </materialDesign:Card>
+
+            <WrapPanel Margin="5" Orientation="Vertical">
+                <Button
+                    Width="30"
+                    Height="30"
+                    Margin="5,100,5,10"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsExpanded, ElementName=expanderTheLoai}"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    Command="{Binding ShowListTheLoaiCommand}"
+                    Content="{materialDesign:PackIcon Kind=Shape}"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}"
+                    ToolTip="Quản lý thể loại"
+                    ToolTipService.Placement="Right" />
+                <Button
+                    Width="30"
+                    Height="30"
+                    Margin="5,10,5,10"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsExpanded, ElementName=expanderTacGia}"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    Command="{Binding ShowListTacGiaCommand}"
+                    Content="{materialDesign:PackIcon Kind=PeopleAdd}"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}"
+                    ToolTip="Quản lý tác giả"
+                    ToolTipService.Placement="Right" />
+                <Button
+                    Width="30"
+                    Height="30"
+                    Margin="5,10,5,10"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsExpanded, ElementName=expanderNhaXB}"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    Command="{Binding ShowListNXBCommamnd}"
+                    Content="{materialDesign:PackIcon Kind=HomeMapMarker}"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}"
+                    ToolTip="Quản lý nhà xuất bản"
+                    ToolTipService.Placement="Right" />
+            </WrapPanel>
+        </StackPanel>
+        <materialDesign:Card
+            x:Name="pnlThongTinSach"
+            Width="426"
+            Margin="5"
+            DockPanel.Dock="Right"
+            Tag="{Binding IDSach, UpdateSourceTrigger=PropertyChanged}">
+            <DockPanel>
+                <TextBlock
+                    Margin="24,0,0,0"
+                    DockPanel.Dock="Top"
+                    FontSize="24"
+                    Text="{Binding TextTrangThai}" />
+                <DockPanel Margin="0,15,0,0" DockPanel.Dock="Bottom">
+                    <Button
+                        x:Name="btnLuuSach"
+                        Width="120"
+                        Margin="5"
+                        Command="{Binding LuuSachCommand}"
+                        CommandParameter="{Binding ElementName=btnLuuSach}"
+                        Content="{Binding TextContentButton}"
+                        DockPanel.Dock="Right" />
+                    <Button
+                        Width="120"
+                        Margin="5"
+                        Command="{Binding ResetTaoSachCommand}"
+                        DockPanel.Dock="Right"
+                        Visibility="{Binding VisibilityButtonThemSachMoi}">
+                        Tạo sách mới
+                    </Button>
+                    <Grid />
+                </DockPanel>
+
+                <StackPanel DockPanel.Dock="Top">
+                    <!--  Ảnh  -->
+                    <Canvas Height="364" DockPanel.Dock="Top">
+
+                        <Button
+                            Canvas.Left="42"
+                            Canvas.Top="10"
+                            Width="350"
+                            Height="345"
+                            Background="Transparent"
+                            Command="{Binding ChonAnhCommmand}"
+                            CommandParameter="{Binding ElementName=img}"
+                            Style="{StaticResource btnLoginStyle}">
+                            <Image x:Name="img" Source="{Binding LinkAnhBia, UpdateSourceTrigger=PropertyChanged}" />
+                        </Button>
+                    </Canvas>
+                    <StackPanel
+                        Width="350"
+                        Margin="10"
+                        DockPanel.Dock="Top">
+
+                        <TextBox
+                            MinWidth="100"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            materialDesign:HintAssist.Hint="Tên sách"
+                            FontSize="25"
+                            Foreground="Black"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding TextTenSach, UpdateSourceTrigger=PropertyChanged}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+
+                        <WrapPanel
+                            x:Name="pnlTheLoai"
+                            Margin="0,5,0,0"
+                            Orientation="Horizontal">
+                            <TextBlock FontSize="17" Text="Thể loại: " />
+                            <Button
+                                Width="25"
+                                Height="25"
+                                Background="Transparent"
+                                Command="{Binding ShowListTheLoaiCommand}"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="Thêm thể loại"
+                                Visibility="{Binding VisibilityButtonTheLoai, UpdateSourceTrigger=PropertyChanged}">
+                                <materialDesign:PackIcon
+                                    Width="20"
+                                    Height="20"
+                                    Kind="Add" />
+                            </Button>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding LoadPanelTheLoaiCommand}" CommandParameter="{Binding ElementName=pnlTheLoai}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </WrapPanel>
+                        <WrapPanel
+                            x:Name="pnlTacGia"
+                            Margin="0,5,0,0"
+                            Orientation="Horizontal">
+                            <TextBlock FontSize="17" Text="Tác giả: " />
+                            <Button
+                                Width="25"
+                                Height="25"
+                                Background="Transparent"
+                                Command="{Binding ShowListTacGiaCommand}"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="Thêm thể loại"
+                                Visibility="{Binding VisibilityButtonTacGia, UpdateSourceTrigger=PropertyChanged}">
+                                <materialDesign:PackIcon
+                                    Width="20"
+                                    Height="20"
+                                    Kind="Add" />
+                            </Button>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding LoadPanelTacGiaCommand}" CommandParameter="{Binding ElementName=pnlTacGia}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </WrapPanel>
+                        <WrapPanel
+                            x:Name="pnlNhaXB"
+                            Margin="0,5,0,0"
+                            Orientation="Horizontal">
+                            <TextBlock FontSize="17" Text="Nhà xuất bản: " />
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                FontSize="17"
+                                Text="{Binding SelectedNhaXB.TenNXB}" />
+                            <Button
+                                Width="25"
+                                Height="25"
+                                Background="Transparent"
+                                Command="{Binding ShowListNXBCommamnd}"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="Thêm thể loại"
+                                Visibility="{Binding VisibilityButtonNhaXB, UpdateSourceTrigger=PropertyChanged}">
+                                <materialDesign:PackIcon
+                                    Width="20"
+                                    Height="20"
+                                    Kind="SwapHorizontal" />
+                            </Button>
+                        </WrapPanel>
+                    </StackPanel>
+
+                    <!--  Tác giả + Nhà Xuất Bản  -->
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="38,0,10,0"
+                            FontSize="17"
+                            Foreground="Black"
+                            Text="{Binding TacGia}"
+                            TextWrapping="Wrap" />
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="20,0,10,0"
+                            FontSize="17"
+                            Foreground="Black"
+                            Text="{Binding NhaXB}"
+                            TextWrapping="Wrap" />
+                    </Grid>
+
+                    <!--  Mô tả  -->
+                </StackPanel>
+                <DockPanel Width="350" LastChildFill="True">
+
+                    <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        DockPanel.Dock="Top"
+                        FontSize="17">
+                        ----------Mô tả------------
+                    </TextBlock>
+                    <ScrollViewer>
+                        <TextBox
+                            Margin="10,10,0,10"
+                            materialDesign:HintAssist.Hint="Nhập mô tả"
+                            AcceptsReturn="True"
+                            FontSize="15"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding TextMoTaSach, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" />
+                    </ScrollViewer>
+                </DockPanel>
+            </DockPanel>
+        </materialDesign:Card>
+
+        <DockPanel LastChildFill="True">
+            <materialDesign:ColorZone
+                Width="400"
+                Margin="10"
+                Padding="8,4,8,4"
+                Panel.ZIndex="1"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                CornerRadius="2"
+                DockPanel.Dock="Top"
+                Mode="Standard">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Command="{Binding TimKiemCommand}"
+                        CommandParameter="{Binding ElementName=pnlHienThiSach}"
+                        Style="{DynamicResource MaterialDesignToolButton}">
+                        <materialDesign:PackIcon Kind="BookSearch" Opacity=".56" />
+                    </Button>
+                    <TextBox
+                        Grid.Column="1"
+                        MinWidth="200"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="Nhập sách để tìm kiếm"
+                        materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                        BorderThickness="0"
+                        Text="{Binding TextTimKiemSach, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </materialDesign:ColorZone>
+            <ScrollViewer Margin="5" Padding="10,0,10,0">
+                <DataGrid
+                    x:Name="dataSach"
+                    VerticalContentAlignment="Top"
+                    AutoGenerateColumns="False"
+                    Background="Transparent"
+                    CanUserAddRows="False"
+                    CanUserSortColumns="True"
+                    HeadersVisibility="All"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ListSach}">
+
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
+                                            Width="25"
+                                            Height="25"
+                                            Margin="5,0,5,0"
+                                            Command="{Binding LoadChiTietSachCommand}"
+                                            CommandParameter="{Binding ElementName=dataSach}"
+                                            DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                            ToolTip="Chỉnh sửa sách">
+
+                                            <materialDesign:PackIcon
+                                                Width="20"
+                                                Height="20"
+                                                Kind="ArrowRight" />
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            Binding="{Binding TenSach}"
+                            Header="Tên sách"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding DonGia}"
+                            Header="Giá sách"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding NhaXuatBan.TenNXB}"
+                            Header="Nhà xuất bản"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding SoLuongTon}"
+                            Header="Tồn kho"
+                            IsReadOnly="False" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,72 @@
+﻿<UserControl
+    x:Class="BookStoreClone.View.HoaDonUC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:BookStoreClone.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="hoaDonUC"
+    d:DesignHeight="730"
+    d:DesignWidth="1200"
+    DataContext="{StaticResource HoaDonVM}"
+    mc:Ignorable="d">
+    <ScrollViewer Margin="5" Padding="10,0,10,0">
+        <DataGrid
+            DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                    x:Name="dataSach"
+                    VerticalContentAlignment="Top"
+                    AutoGenerateColumns="False"
+                    Background="Transparent"
+                    CanUserAddRows="False"
+                    CanUserSortColumns="True"
+                    HeadersVisibility="All"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ListSach}">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button
+                                            Width="25"
+                                            Height="25"
+                                            Margin="5,0,5,0"
+                                            Command="{Binding LoadChiTietSachCommand}"
+                                            CommandParameter="{Binding ElementName=dataSach}"
+                                            DataContext="{StaticResource QuanLyDuLieuSachVM}"
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                            ToolTip="Chỉnh sửa sách">
+
+                                    <materialDesign:PackIcon
+                                                Width="20"
+                                                Height="20"
+                                                Kind="ArrowRight" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                            Binding="{Binding TenSach}"
+                            Header="Tên sách"
+                            IsReadOnly="False" />
+                <DataGridTextColumn
+                            Binding="{Binding DonGia}"
+                            Header="Giá sách"
+                            IsReadOnly="False" />
+                <DataGridTextColumn
+                            Binding="{Binding A}"
+                            Header="Nhà xuất bản"
+                            IsReadOnly="False" />
+                <DataGridTextColumn
+                            Binding="{Binding SoLuongTon}"
+                            Header="Tồn kho"
+                            IsReadOnly="False" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </ScrollViewer>
+</UserControl>

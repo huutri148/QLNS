@@ -1,0 +1,277 @@
+﻿<UserControl
+    x:Class="BookStoreClone.View.TimKiemSachUC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:BookStoreClone.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="timKiemSachUC"
+
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    mc:Ignorable="d">
+    <DockPanel>
+        <materialDesign:Card
+            x:Name="pnlThongTinSach"
+            Width="426"
+            DockPanel.Dock="Right"
+            Tag="{Binding IDSach, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="Collapsed">
+
+            <Grid>
+
+                <StackPanel>
+                    <!--  Ảnh  -->
+                    <Canvas Height="364" DockPanel.Dock="Top">
+                        <Image
+                            Canvas.Left="42"
+                            Canvas.Top="10"
+                            Width="350"
+                            Height="345"
+                            Source="{Binding AnhBia}" />
+                        <Button
+
+                            Canvas.Left="10"
+                            Canvas.Top="10"
+                            Command="{Binding AnSachCommand}"
+                            CommandParameter="{Binding ElementName=pnlThongTinSach}"
+                            RenderTransformOrigin="1.15,0.6"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                            ToolBar.OverflowMode="AsNeeded"
+                            ToolTip="MaterialDesignFloatingActionMiniLightButton">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="Close"
+                                RenderTransformOrigin="1.583,2.583" />
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding AnSachCommand}" CommandParameter="{Binding ElementName=pnlThongTinSach}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <materialDesign:Card
+                            x:Name="cardHetHang"
+                            Width="200"
+                            Height="50"
+                            Margin="10,63,216,687"
+                            Padding="8"
+                            Background="Violet"
+                            Foreground="White"
+                            Opacity="0.8">
+                            <TextBlock FontSize="25">
+                                Hết hàng
+                            </TextBlock>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding LoadedCardHetHangCommand }" CommandParameter="{Binding ElementName=cardHetHang}" ></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </materialDesign:Card>
+                    </Canvas>
+                    <StackPanel
+                        Width="350"
+                        Margin="10"
+                        DockPanel.Dock="Top">
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="25"
+                            Foreground="Black"
+                            Text="{Binding TenSach}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+
+                        <TextBlock
+                            FontSize="25"
+                            Foreground="Black"
+                            RenderTransformOrigin="0.365,1.083"
+                            Text="{Binding GiaSach}"
+                            TextAlignment="Center" />
+
+                        <TextBlock
+                            FontSize="17"
+                            Foreground="Black"
+                            Text="{Binding SoLuongTon}"
+                            TextAlignment="Right">
+                        </TextBlock>
+
+                        <TextBlock
+                            FontSize="17"
+                            Foreground="Black"
+                            Text="{Binding TheLoai}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+
+                            FontSize="17"
+                            Foreground="Black"
+                            Text="{Binding TacGia}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+
+                            FontSize="17"
+                            Foreground="Black"
+                            Text="{Binding NhaXB}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <!--  Mô tả  -->
+                    <DockPanel>
+
+                        <TextBlock
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Center"
+                            DockPanel.Dock="Top"
+                            FontSize="17">
+                            ----------Mô tả------------
+                        </TextBlock>
+                        <TextBlock
+                            Margin="38,10,0,10"
+                            FontSize="15"
+                            Text="{Binding MoTaSach}"
+                            TextWrapping="Wrap" />
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+        <DockPanel>
+
+            <DockPanel DockPanel.Dock="Top" LastChildFill="True" Margin="10">
+
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DockPanel.Dock="Right"
+                    Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Hiển thị:     " />
+                    <ComboBox
+                        x:Name="cbSoTrangHienThi"
+                        Margin="0,0,30,0"
+                        HorizontalAlignment="Right"
+                        materialDesign:ColorZoneAssist.Mode="Standard"
+                        materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource MaterialDesignPaper}"
+                        BorderBrush="{DynamicResource MaterialDesignPaper}"
+                        BorderThickness="0"
+                        SelectedIndex="0">
+                        <ComboBoxItem>
+                            16
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            32
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            64
+                        </ComboBoxItem>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ThayDoiSoLuongHienThiCommand}" CommandParameter="{Binding ElementName=cbSoTrangHienThi}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel
+                    Height="44"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    materialDesign:RippleAssist.IsCentered="True"
+                    Orientation="Horizontal">
+
+                    <ComboBox
+                        Margin="8,0,0,0"
+                        materialDesign:ColorZoneAssist.Mode="Standard"
+                        materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource MaterialDesignPaper}"
+                        BorderBrush="{DynamicResource MaterialDesignPaper}"
+                        BorderThickness="0"
+                        SelectedIndex="0">
+                        <ComboBoxItem>
+                            Tên sách
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            Tác giả
+                        </ComboBoxItem>
+                    </ComboBox>
+                    <materialDesign:ColorZone
+                        Margin="16,0,0,0"
+                        Padding="8,4,8,4"
+                        Panel.ZIndex="1"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                        CornerRadius="2"
+                        Mode="Standard">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Command="{Binding TimKiemCommand}"
+                                CommandParameter="{Binding ElementName=pnlHienThiSach}"
+                                Style="{DynamicResource MaterialDesignToolButton}">
+                                <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                            </Button>
+                            <TextBox
+                                Grid.Column="1"
+                                MinWidth="350"
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Build a search bar"
+                                materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                BorderThickness="0"
+                                Text="{Binding TextTimKiem, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </StackPanel>
+            </DockPanel>
+
+            <materialDesign:Card Margin="0,0,5,0" DockPanel.Dock="Top">
+                <ScrollViewer>
+                    <DockPanel>
+                        <StackPanel
+                            Height="50"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Azure"
+                            DockPanel.Dock="Bottom"
+                            Orientation="Horizontal">
+                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Margin="10,5,10,5" Command="{Binding TrangDauCommand}">
+                                    <materialDesign:PackIcon Kind="ChevronDoubleLeft" />
+                                </Button>
+                                <Button Margin="10,5,10,5" Command="{Binding TrangTruocDoCommand}">
+                                    <materialDesign:PackIcon Kind="ChevronLeft" />
+                                </Button>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding TrangThaiSoTrang}" />
+                                </Grid>
+                                <Button Margin="10,5,10,5" Command="{Binding TrangTiepTheoCommand}">
+                                    <materialDesign:PackIcon Kind="ChevronRight" />
+                                </Button>
+                                <Button Margin="10,5,10,5" Command="{Binding TrangCuoiCommand}">
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                </Button>
+                            </WrapPanel>
+                        </StackPanel>
+                        <WrapPanel x:Name="pnlHienThiSach" HorizontalAlignment="Center">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding LoadSach}" CommandParameter="{Binding ElementName=pnlHienThiSach}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </WrapPanel>
+                    </DockPanel>
+                </ScrollViewer>
+            </materialDesign:Card>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

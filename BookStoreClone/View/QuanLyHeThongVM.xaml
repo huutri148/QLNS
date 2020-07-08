@@ -1,0 +1,369 @@
+﻿<UserControl x:Class="BookStoreClone.View.QuanLyHeThongVM"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookStoreClone.View"
+             mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             DataContext="{StaticResource QuanLyHeThongVM}"
+             d:DesignHeight="800" d:DesignWidth="1300">
+    <DockPanel>
+        <WrapPanel Margin="5" Orientation="Vertical" DockPanel.Dock="Right">
+            <Button
+                Width="30"
+                Height="30"
+                Margin="5,100,5,10"
+                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding BtnThemHoaDonMoi}"
+                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                materialDesign:ButtonProgressAssist.Value="-1"
+                Command="{Binding ShowSuaDoiQuyDinhCommand}"
+                Content="{materialDesign:PackIcon Kind=CreditCardMinusOutline}"
+                Style="{StaticResource MaterialDesignFloatingActionButton}"
+                ToolTip="Sửa đổi quy định"
+                ToolTipService.Placement="Right" />
+            <Button
+                Width="30"
+                Height="30"
+                Margin="5,10,5,10"
+                materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                materialDesign:ButtonProgressAssist.Value="-1"
+                Command="{Binding ShowThemNhanVienCommand}"
+                CommandParameter="{Binding ElementName=dataNhanVien}"
+                Content="{materialDesign:PackIcon Kind=PeopleAdd}"
+                Style="{StaticResource MaterialDesignFloatingActionButton}"
+                ToolTip="Thêm nhân viên"
+                ToolTipService.Placement="Right" />
+        </WrapPanel>
+        <!--Thay đổi quy định-->
+        <materialDesign:Card Margin="5"
+                             DockPanel.Dock="Right" Width="426"
+                             x:Name="pnlThayDoiQuyDinh"
+                             Visibility="{Binding VisibilityThayDoiQuyDinh}"
+                             >
+            <DockPanel>
+                <TextBlock
+                    Margin="24,20,0,0"
+                    DockPanel.Dock="Top" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    FontSize="24"
+                    Text="Thay đổi quy định" />
+                <StackPanel
+                    Margin="20,110,5,5"
+                    DockPanel.Dock="Top" 
+                    Orientation="Horizontal">
+                    <TextBlock FontSize="15" Margin="5" Text="Số lượng tồn tối đa sau khi nhập: " />
+                    <TextBox FontSize="15"  BorderBrush="Black"  Text="{Binding SoLuongSachTonToiThieuDeNhap, UpdateSourceTrigger=PropertyChanged}" Width="100" />
+                    <TextBlock FontSize="15" Margin="5" Text="quyển"></TextBlock>
+                </StackPanel>
+                <StackPanel
+                    Margin="20,5,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <TextBlock FontSize="15" Margin="5" Text="Số lượng nhập tối thiểu: "  />
+                    <TextBox FontSize="15"  BorderBrush="Black" Text="{Binding SoLuongSachNhapToiThieu, UpdateSourceTrigger=PropertyChanged}"  Width="100"/>
+                    <TextBlock FontSize="15" Margin="5" Text="quyển"></TextBlock>
+                </StackPanel>
+                <StackPanel
+                    Margin="20,5,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <TextBlock FontSize="15" Margin="5" Text="Tiền nợ tối đa của mỗi khách hàng: " />
+                    <TextBox FontSize="15" BorderBrush="Black" Text="{Binding TienNoToiDa,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Width="100"/>
+                    <TextBlock FontSize="15" Margin="5" Text="VNĐ"></TextBlock>
+                </StackPanel>
+                <StackPanel
+                    Margin="20,5,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <TextBlock FontSize="15" Margin="5" Text="Số lượng tồn tối thiểu sau khi bán: "  />
+                    <TextBox
+                        MaxWidth="320"
+                        MinWidth="100"
+                        FontSize="15"
+                        BorderBrush="Black"
+                        Text="{Binding SoLuongSachTonToiThieuSauKhiBan, UpdateSourceTrigger=PropertyChanged}" 
+                        TextWrapping="Wrap" />
+                    <TextBlock FontSize="15" Margin="5" Text="quyển"></TextBlock>
+                </StackPanel>
+                <StackPanel Margin="20,5,5,5"
+                            DockPanel.Dock="Top"
+                            Orientation="Horizontal">
+
+                    <TextBlock FontSize="15" Margin="5" Text="Cho phép thu vượt số tiền nợ của khách: " />
+                    <RadioButton HorizontalAlignment="Center" VerticalAlignment="Top"
+                                 FontSize="15" Content="Có" IsChecked="{Binding CheckCo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ></RadioButton>
+                    <RadioButton HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,0,0,0" 
+                                 FontSize="15" Content="Không" IsChecked="{Binding CheckKhong,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></RadioButton>
+
+                </StackPanel>
+                <Button
+                    x:Name="btnLuuHoaDon"
+                    Width="130"
+                    Margin="0,10,0,0"
+                    Command="{Binding  CapNhatQuyDinhCommand}"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                    Cập nhật
+                </Button>
+            </DockPanel>
+        </materialDesign:Card>
+        <!--Thêm nhân viên-->
+        <materialDesign:Card Margin="5"
+                             DockPanel.Dock="Right" Width="426"
+                             x:Name="pnlThemNhanVien" Visibility="{Binding VisbilityThemNhanVien}">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" Margin="24,20,0,0"
+                            DockPanel.Dock="Top" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            >
+                    <materialDesign:PackIcon Kind="AccountMultiplePlus"  Width="34"
+                                             Height="34"
+                                             Margin="10,6,10,0" />
+                    <TextBlock
+                        FontSize="24"
+                        Text="Thêm Nhân Viên"  Margin="10,6,10,0" />
+                </StackPanel>
+
+                <StackPanel
+                    Margin="20,80,5,5"
+                    DockPanel.Dock="Top" 
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Width="24"
+                        Height="24"
+                        Margin="10,6,10,0"
+                        Kind="People" />
+
+
+                    <TextBox FontSize="15"  BorderBrush="Black" Width="250" Text="{Binding SelectedNhanVien.TenND,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Tên Nhân Viên"/>
+
+                </StackPanel>
+                <StackPanel
+                    Margin="20,10,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Width="24"
+                        Height="24"
+                        Margin="10,6,10,0"
+                        Kind="Phone" />
+
+                    <TextBox FontSize="15"  BorderBrush="Black" Text="{Binding SelectedNhanVien.SDT,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Width="100" materialDesign:HintAssist.Hint="Số Điện Thoại"/>
+                    <materialDesign:PackIcon Kind="GenderMaleFemale"  Width="30"
+                                             Height="30"
+                                             Margin="30,6,10,0" />
+
+                    <RadioButton HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,5,0,0"
+                                 FontSize="15" Content="Nam" IsChecked="{Binding Nam,Mode=TwoWay}"></RadioButton>
+                    <RadioButton HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,5,0,0" 
+                                 FontSize="15" Content="Nữ" IsChecked="{Binding Nu,Mode=TwoWay}"></RadioButton>
+                </StackPanel>
+                <StackPanel
+                    Margin="20,10,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Width="24"
+                        Height="24"
+                        Margin="10,6,10,0"
+                        Kind="AddressMarker" />
+
+                    <TextBox FontSize="15" BorderBrush="Black" Text="{Binding SelectedNhanVien.DiaChi,Mode=TwoWay}" Width="250" MaxHeight="50" TextWrapping="Wrap" MaxWidth="250" materialDesign:HintAssist.Hint="Địa chỉ"/>
+
+                </StackPanel>
+                <StackPanel
+                    Margin="20,10,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="CalendarMonthOutline"  Width="24"
+                                             Height="24"
+                                             Margin="10,6,10,0" />
+
+
+                    <DatePicker
+                        MaxWidth="320"
+                        MinWidth="100"
+                        FontSize="14"
+                        Height="30"
+                        BorderBrush="Black"
+                        materialDesign:HintAssist.Hint="Ngày Sinh"
+                        Text="{Binding SelectedNhanVien.NgaySinh,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        Width="250"              
+                        />
+
+                </StackPanel>
+                <StackPanel
+                    Margin="20,10,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="AccountHardHat" 
+                                             Height="24"  Width="24"
+                                             Margin="10,6,10,0"   />
+                    <RadioButton HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,5,0,0"
+                                 FontSize="15" Content="Admin" IsChecked="{Binding Admin,Mode=TwoWay}"></RadioButton>
+                    <RadioButton HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,5,0,0" 
+                                 FontSize="15" Content="Quản Lý Kho" IsChecked="{Binding QuanLyKho,Mode=TwoWay}"></RadioButton>
+                    <RadioButton HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,5,0,0" 
+                                 FontSize="15" Content="Nhân Viên bán" IsChecked="{Binding CNV,Mode=TwoWay}"></RadioButton>
+
+                </StackPanel>
+                <StackPanel  
+                    Margin="90,50,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="AccountEditOutline"  Height="28"  Width="28"
+                                             Margin="10,6,10,0"   />
+
+                    <TextBox FontSize="15"  BorderBrush="Black"   Width="200" Text="{Binding SelectedNhanVien.TenDangNhap,Mode=TwoWay}"  materialDesign:HintAssist.Hint="Tên Đăng Nhập" IsEnabled="{Binding SetTaiKhoan}" />
+                </StackPanel>
+                <StackPanel  
+                    Margin="90,10,5,5"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="LockQuestion"   Height="24"  Width="24"
+                                             Margin="10,6,10,0"   />
+
+                    <TextBox FontSize="15"  BorderBrush="Black"  Text="{Binding SelectedNhanVien.MatKhau,Mode=TwoWay}" Width="200"  materialDesign:HintAssist.Hint="Mật Khẩu" />
+                </StackPanel>
+                <Button
+                    DockPanel.Dock="Top"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Command="{Binding LuuNguoiDungCommand}"
+                    CommandParameter="{Binding ElementName=dataNhanVien}"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                    Content="Cập Nhật"
+                    Margin="40,0" />
+            </DockPanel>
+        </materialDesign:Card>
+        <!--Quản lí nhân viên-->
+        <DockPanel
+            LastChildFill="True" Visibility="Visible">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+
+                <materialDesign:ColorZone
+                    Width="250"
+                    Margin="250,0,0,0"
+                    Panel.ZIndex="1"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                    CornerRadius="2"
+                    DockPanel.Dock="Top"
+                    Mode="Standard">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Command="{Binding TimKiemCommand}"
+                            CommandParameter="{Binding ElementName=pnlHienThiSach}"
+                            Style="{DynamicResource MaterialDesignToolButton}">
+                            <materialDesign:PackIcon Kind="UserSearch" Opacity=".56" />
+                        </Button>
+                        <TextBox
+                            Grid.Column="1"
+                            MinWidth="200"
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Center"
+                            materialDesign:HintAssist.Hint="Tìm kiếm nhân viên"
+                            materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                            BorderThickness="0"
+                            Text="{Binding TextTimKiemNhanVien, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                </materialDesign:ColorZone>
+
+            </StackPanel>
+            <ScrollViewer Margin="5" Padding="10,0,10,0">
+                <DataGrid
+                  
+                    x:Name="dataNhanVien"
+                    VerticalContentAlignment="Top"
+                    AutoGenerateColumns="False"
+                    Background="Transparent"
+                    CanUserAddRows="False"
+                    CanUserSortColumns="True"
+                    HeadersVisibility="All"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding SelectedNhanVien,Mode=OneWayToSource}"
+                    ItemsSource="{Binding ListNV,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding MaND}"
+                            Header="Mã nhân viên"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding TenND}"
+                            Header="Tên nhân viên"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding SDT}"
+                            Header="Số điện thoại"
+                            IsReadOnly="False" />
+                        <DataGridCheckBoxColumn Header="Admin" Binding="{Binding Admin}" />
+                        <DataGridCheckBoxColumn Header="Quản Lí Kho" Binding="{Binding NhanVienKho}"/>
+                        <DataGridCheckBoxColumn Header="Kinh doanh" Binding="{Binding NhanVienBan}"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+
+                                    <Button
+                                        Width="25"
+                                        Height="25"
+                                        Margin="5,0,5,0"
+                                        DataContext="{StaticResource QuanLyHeThongVM}"
+                                        Command="{Binding LoadChiTietNhanVienCommand}"
+                                        CommandParameter="{Binding ElementName=dataNhanVien}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        ToolTip="Chỉnh sửa sách">
+
+                                        <materialDesign:PackIcon
+                                            Width="20"
+                                            Height="20" 
+                                            Kind="Edit" />
+                                    </Button>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+
+                                    <Button
+                                        Width="25"
+                                        Height="25"
+                                        Margin="5,0,5,0" 
+                                        Command="{Binding XoaNhanVienCommand}" 
+                                        CommandParameter="{Binding ElementName=dataNhanVien}"
+                                        DataContext="{StaticResource QuanLyHeThongVM}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        ToolTip="Xóa nhân viên">
+
+                                        <materialDesign:PackIcon
+                                            Width="20"
+                                            Height="20"
+                                            Kind="DeleteForever" />
+                                    </Button>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+        </DockPanel>
+    </DockPanel>
+
+
+</UserControl>

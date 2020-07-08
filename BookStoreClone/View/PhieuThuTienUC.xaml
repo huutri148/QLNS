@@ -1,0 +1,307 @@
+﻿<UserControl
+    x:Class="BookStoreClone.View.PhieuThuTienUC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:BookStoreClone.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="730"
+    d:DesignWidth="1200"
+    DataContext="{StaticResource PhieuThuTienVM}"
+    mc:Ignorable="d">
+    <DockPanel>
+
+        <ScrollViewer DockPanel.Dock="Right">
+            <materialDesign:Card
+            Width="426"
+            Margin="5"
+            Tag="{Binding IDSach, UpdateSourceTrigger=PropertyChanged}">
+                <DockPanel Width="426" LastChildFill="True">
+                    <TextBlock
+                    Margin="24,0,0,0"
+                    DockPanel.Dock="Top"
+                    FontSize="24"
+                    Text="Thông tin phiếu thu tiền" />
+
+                    <DockPanel Margin="0,20,0,0">
+                        <DockPanel DockPanel.Dock="Top">
+                            <DockPanel Margin="10" DockPanel.Dock="Right">
+                                <StackPanel DockPanel.Dock="Right">
+                                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                        <TextBlock FontSize="15" Text="Ngày lập hóa đơn: " Margin="10,15,0,0" />
+                                        <DatePicker
+                                      SelectedDate="{Binding SelectedDateTime, UpdateSourceTrigger=PropertyChanged}"
+                                      Width="100"
+                                      materialDesign:HintAssist.Hint="Chọn ngày"
+                                      Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <Grid />
+                            </DockPanel>
+                        </DockPanel>
+                        <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        DockPanel.Dock="Top"
+                        FontSize="15">
+                        ----------Khách hàng------------
+                        </TextBlock>
+                        <DockPanel DockPanel.Dock="Top">
+                            <DockPanel x:Name="pnlThongTinKhachHang">
+
+
+                                <StackPanel
+                                Margin="20,5,5,5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                    <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="Tên khách hàng: " />
+                                    <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="{Binding SelectedItem.TenKH, ElementName=dataKhachHang}" />
+
+                                </StackPanel>
+                                <StackPanel
+                                Margin="20,5,5,5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                    <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="SDT khách hàng: " />
+                                    <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="{Binding SelectedItem.SDT, ElementName=dataKhachHang}" />
+
+                                </StackPanel>
+                                <StackPanel
+                                Margin="20,5,5,5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                    <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="Email: " />
+                                    <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="{Binding SelectedItem.Email, ElementName=dataKhachHang}" />
+
+                                </StackPanel>
+                                <StackPanel
+                                Margin="20,5,5,5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                    <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="Địa chỉ: " />
+                                    <TextBlock
+                                    MaxWidth="300"
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="{Binding SelectedItem.DiaChi, ElementName=dataKhachHang}"
+                                    TextWrapping="Wrap" />
+                                </StackPanel>
+                            </DockPanel>
+                        </DockPanel>
+
+                        <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        DockPanel.Dock="Top"
+                        FontSize="15">
+                        ----------Các hóa đơn------------
+                        </TextBlock>
+
+                        <DataGrid
+                        x:Name="dataHD_KH"
+            
+                        VerticalContentAlignment="Top"
+                        AutoGenerateColumns="False"
+                        Background="Transparent"
+                        CanUserAddRows="False"
+                        CanUserSortColumns="True"
+                        DockPanel.Dock="Top"
+                        HeadersVisibility="All"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding SelectedKhachHang.HoaDons}">
+
+                            <DataGrid.Columns>
+
+
+                                <DataGridTextColumn
+                                Binding="{Binding NgayBan, StringFormat=dd-MMMM-yy}"
+                                Header="Ngày bán"
+                                IsReadOnly="False" />
+                                <DataGridTextColumn
+                                Binding="{Binding TongTien}"
+                                Header="Tổng hóa đơn"
+                                IsReadOnly="False" />
+                                <DataGridTextColumn
+                                Binding="{Binding TongTien}"
+                                Header="Thanh toán"
+                                IsReadOnly="False" />
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        DockPanel.Dock="Top"
+                        FontSize="15">
+                        ----------Các phiếu thu------------
+                        </TextBlock>
+                        <DataGrid
+                        
+                        VerticalContentAlignment="Top"
+                        AutoGenerateColumns="False"
+                        Background="Transparent"
+                        CanUserAddRows="False"
+                        CanUserSortColumns="True"
+                        DockPanel.Dock="Top"
+                        HeadersVisibility="All"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding SelectedKhachHang.PhieuThuTiens}">
+
+                            <DataGrid.Columns>
+
+                                <DataGridTextColumn
+                                Binding="{Binding NgayThuTien, StringFormat=dd-MMMM-yy}"
+                                Header="Ngày lập phiếu"
+                                IsReadOnly="False" />
+                                <DataGridTextColumn
+                                Binding="{Binding SoTienThu}"
+                                Header="Số tiền thu"
+                                IsReadOnly="False" />
+                                <DataGridTextColumn
+                                MaxWidth="200"
+                                Binding="{Binding NguoiDung.TenND}"
+                                Header="Người lập phiếu"
+                                IsReadOnly="False" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DockPanel Margin="0,10,0,0" DockPanel.Dock="Top">
+
+                            <DockPanel
+                           Margin="10"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            DockPanel.Dock="Right">
+                                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+                                    <TextBlock
+                              
+                                    FontSize="15"
+                                    Text="Tiền nợ còn lại:     " />
+                                    <TextBlock
+                                    VerticalAlignment="Bottom"
+                                    FontSize="15"
+                                    Text="{Binding SelectedKhachHang.SoTienNo}" />
+                                    <TextBlock  FontSize="15">đ</TextBlock>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Margin="10" Visibility="{Binding VisibilityPnlThuTien}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Số tiền trả: " FontSize="15" Margin="0,5,0,0"></TextBlock>
+                                        <TextBox FontSize="15" MinWidth="20" Text="{Binding SoTienTra,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                        <TextBlock Text=" đ" FontSize="15" Margin="0,5,0,0"></TextBlock>
+
+                                    </StackPanel>
+                                    <Button x:Name="btnThanhToan" Margin="0,10" Command="{Binding XacNhanThuTienCommand}" CommandParameter="{Binding ElementName=btnThanhToan}">Thanh toán</Button>
+                                </StackPanel>
+                            </DockPanel>
+
+                        </DockPanel>
+
+                    </DockPanel>
+                </DockPanel>
+            </materialDesign:Card>
+        </ScrollViewer>
+        <DockPanel LastChildFill="True" DataContext="{StaticResource QuanLyKhachHangVM}" x:Name="pnlQuanLyKhachHang">
+            <materialDesign:ColorZone
+                Width="400"
+                Margin="10"
+                Padding="8,4,8,4"
+                Panel.ZIndex="1"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                CornerRadius="2"
+                DockPanel.Dock="Top"
+                Mode="Standard">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                       
+                        Style="{DynamicResource MaterialDesignToolButton}">
+                        <materialDesign:PackIcon Kind="BookSearch" Opacity=".56" />
+                    </Button>
+                    <TextBox
+                        Grid.Column="1"
+                        MinWidth="200"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="Nhập số điện thoại hoặc họ tên để tìm kiếm"
+                        materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                        BorderThickness="0"
+                        Text="{Binding TextTimKiem, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </materialDesign:ColorZone>
+            <ScrollViewer Margin="5" Padding="10,0,10,0">
+                <DataGrid
+                    x:Name="dataKhachHang"
+                    VerticalContentAlignment="Top"
+                    AutoGenerateColumns="False"
+                    Background="Transparent"
+                    CanUserAddRows="False"
+                    CanUserSortColumns="True"
+                    HeadersVisibility="All"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    SelectedIndex="0"
+                    
+                    ItemsSource="{Binding ListKH, Source={StaticResource QuanLyKhachHangVM}}"
+                    SelectedItem="{Binding SelectedKhachHang, UpdateSourceTrigger=PropertyChanged, Source={StaticResource PhieuThuTienVM}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction Command="{Binding GetViewModelQuanLyKhachHang,Source={StaticResource PhieuThuTienVM}}" CommandParameter="{Binding ElementName=pnlQuanLyKhachHang}" >
+
+                            </i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding TenKH}"
+                            Header="Tên khách hàng"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding SDT}"
+                            Header="Số điện thoại"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding Email}"
+                            Header="Email"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding SoTienNo}"
+                            Header="Nợ"
+                            IsReadOnly="False" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

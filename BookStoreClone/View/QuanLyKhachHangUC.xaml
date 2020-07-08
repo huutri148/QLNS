@@ -1,0 +1,391 @@
+﻿<UserControl
+    x:Class="BookStoreClone.View.QuanLyKhachHangUC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:BookStoreClone.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="730"
+    d:DesignWidth="1200"
+    DataContext="{StaticResource QuanLyKhachHangVM}"
+    mc:Ignorable="d">
+    <DockPanel>
+
+        <materialDesign:Card
+            Width="426"
+            Margin="5"
+            DockPanel.Dock="Right"
+            Tag="{Binding IDSach, UpdateSourceTrigger=PropertyChanged}">
+            <DockPanel Width="426" LastChildFill="True">
+                <TextBlock
+                    Margin="24,0,0,0"
+                    DockPanel.Dock="Top"
+                    FontSize="24"
+                    Text="Thông tin khách hàng" />
+
+                <DockPanel Margin="0,20,0,0">
+
+                    <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        DockPanel.Dock="Top"
+                        FontSize="15">
+                        ----------Khách hàng------------
+                    </TextBlock>
+                    <DockPanel DockPanel.Dock="Top">
+                        <DockPanel x:Name="pnlThongTinKhachHang">
+                            <DockPanel Margin="10" DockPanel.Dock="Right">
+
+                                <WrapPanel DockPanel.Dock="Top">
+                                    <materialDesign:PopupBox
+                                        x:Name="popupThemKhachHang"
+                                        Width="0"
+                                        Height="0"
+                                        PlacementMode="LeftAndAlignTopEdges"
+                                        StaysOpen="True">
+                                        <StackPanel Margin="10">
+                                            <TextBlock HorizontalAlignment="Center" FontSize="20">-Thêm mới khách hàng-</TextBlock>
+                                            <WrapPanel Margin="10">
+                                                <materialDesign:PackIcon
+                                                    ToolTip="Họ tên"
+                                                    Width="24"
+                                                    Height="24"
+                                                    Margin="10,6,0,0"
+                                                    Kind="People" />
+                                                <TextBox
+                                                    MinWidth="308"
+                                                    materialDesign:HintAssist.HelperText="Họ và tên"
+                                                    materialDesign:HintAssist.Hint="Họ và tên"
+                                                    Text="{Binding TextThemTen, UpdateSourceTrigger=PropertyChanged}"
+                                                    FontSize="15" />
+                                            </WrapPanel>
+                                            <WrapPanel Margin="10">
+                                                <materialDesign:PackIcon
+                                                    ToolTip="Điện thoại"
+                                                    Width="24"
+                                                    Height="24"
+                                                    Margin="10,6,0,0"
+                                                    Kind="Phone" />
+                                                <TextBox
+                                                    MinWidth="308"
+                                                    materialDesign:HintAssist.HelperText="Số điện thoại"
+                                                    materialDesign:HintAssist.Hint="Số điện thoại"
+                                                       Text="{Binding TextThemSDT, UpdateSourceTrigger=PropertyChanged}"
+                                                    FontSize="15" />
+                                            </WrapPanel>
+                                            <WrapPanel Margin="10">
+                                                <materialDesign:PackIcon
+                                                    ToolTip="Email"
+                                                    Width="24"
+                                                    Height="24"
+                                                    Margin="10,6,0,0"
+                                                    Kind="Mail" />
+                                                <TextBox
+                                                   MinWidth="308"
+                                                    materialDesign:HintAssist.HelperText="Email"
+                                                    materialDesign:HintAssist.Hint="Email"
+                                                       Text="{Binding TextThemEmail, UpdateSourceTrigger=PropertyChanged}"
+                                                    FontSize="15" />
+                                            </WrapPanel>
+                                            <WrapPanel Margin="10">
+                                                <materialDesign:PackIcon
+                                                    ToolTip="Địa chỉ"
+                                                    Width="24"
+                                                    Height="24"
+                                                    Margin="10,6,0,0"
+                                                    Kind="AddressMarker" />
+                                                <TextBox
+                                                    MinWidth="308"
+                                                    materialDesign:HintAssist.HelperText="Địa chỉ"
+                                                    materialDesign:HintAssist.Hint="Địa chỉ"
+                                                    Text="{Binding TextThemDiaChi, UpdateSourceTrigger=PropertyChanged}"
+                                                    FontSize="15" />
+                                            </WrapPanel>
+                                            <DockPanel>
+                                                <Button
+                                                    Width="150"
+                                                    Margin="10"
+                                                    Command="{Binding LuuThemMoiCommand}"
+                                                    CommandParameter="{Binding ElementName=popupThemKhachHang}"
+                                                    DockPanel.Dock="Right"
+                                                    Style="{StaticResource MaterialDesignRaisedDarkButton}">
+                                                    _Thêm khách hàng
+                                                </Button>
+                                                <Grid />
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </materialDesign:PopupBox>
+                                    <Button
+                                        Width="30"
+                                        Height="30"
+                                        Margin="2"
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsPopupOpen, ElementName=popupThemKhachHang}"
+                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                        materialDesign:ButtonProgressAssist.Value="-1"
+
+                                        Command="{Binding ThemMoiCommand}"
+                                        CommandParameter="{Binding ElementName=popupThemKhachHang}"
+                                        Content="{materialDesign:PackIcon Kind=PeopleAdd}"
+                                        DockPanel.Dock="Top"
+                                        Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                        ToolTip="Thêm khách hàng"
+                                        ToolTipService.Placement="Right" />
+                                </WrapPanel>
+                                <Button
+                                    Width="30"
+                                    Height="30"
+                                    Margin="2,10,2,2"
+                                    materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IconSuaKhachHang}"
+                                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                    materialDesign:ButtonProgressAssist.Value="-1"
+                                    Command="{Binding CapNhatCommand}"
+                                    CommandParameter="{Binding ElementName=pnlThongTinKhachHang}"
+                                    Content="{materialDesign:PackIcon Kind=CircleEditOutline}"
+                                    DockPanel.Dock="Top"
+                                    Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                    ToolTip="Sửa khách hàng"
+                                    ToolTipService.Placement="Right" />
+                                <Grid />
+                            </DockPanel>
+
+                            <StackPanel
+                                Margin="20,5,5,5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="Tên khách hàng: " />
+                                <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="{Binding TextSuaTen}" />
+                                <TextBox
+                                    MinWidth="230"
+                                    MaxWidth="230"
+                                    FontSize="15"
+                                    Text="{Binding TextSuaTen, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    Visibility="Collapsed" />
+                            </StackPanel>
+                            <StackPanel
+                                Margin="20,5,5,5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="SDT khách hàng: " />
+                                <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="{Binding TextSuaSDT, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox
+                                    MinWidth="226.5"
+                                    MaxWidth="226.5"
+                                    FontSize="15"
+                                    Text="{Binding TextSuaSDT, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    Visibility="Collapsed" />
+                            </StackPanel>
+                            <StackPanel
+                                Margin="20,5,5,5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="Email: " />
+                                <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="{Binding TextSuaEmail, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox
+                                    MinWidth="297"
+                                    MaxWidth="297"
+                                    FontSize="15"
+                                    Text="{Binding TextSuaEmail, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    Visibility="Collapsed" />
+                            </StackPanel>
+                            <StackPanel
+                                Margin="20,5,5,5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="Địa chỉ: " />
+                                <TextBlock
+                                    MaxWidth="300"
+                                    Margin="0,3.5"
+                                    FontSize="15"
+                                    Text="{Binding TextSuaDiaChi, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    MinWidth="289"
+                                    MaxWidth="289"
+                                    FontSize="15"
+                                    Text="{Binding TextSuaDiaChi, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    Visibility="Collapsed" />
+                            </StackPanel>
+                            <Canvas Margin="10" Visibility="Collapsed">
+                                <Button
+                                    Canvas.Left="288"
+                                    Canvas.Top="-6"
+                                    Width="116"
+                                    Command="{Binding LuuCapNhatCommand}"
+                                    CommandParameter="{Binding ElementName=pnlThongTinKhachHang}"
+                                    Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                                    _Lưu thay đổi
+                                </Button>
+                            </Canvas>
+                        </DockPanel>
+                    </DockPanel>
+
+                    <TextBlock
+                        Margin="0,40,0,20"
+                        HorizontalAlignment="Center"
+                        DockPanel.Dock="Top"
+                        FontSize="15">
+                        ----------Các đơn hàng------------
+                    </TextBlock>
+
+                    <StackPanel DockPanel.Dock="Top">
+                        <DataGrid
+SelectedIndex="0"
+                            x:Name="dataCTHD_BanSach"
+                            VerticalContentAlignment="Top"
+                            AutoGenerateColumns="False"
+                            Background="Transparent"
+                            CanUserAddRows="False"
+                            CanUserSortColumns="True"
+                            DockPanel.Dock="Top"
+                            HeadersVisibility="All"
+                            HorizontalScrollBarVisibility="Auto"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding SelectedItem.HoaDons, ElementName=dataKhachHang}">
+
+                            <DataGrid.Columns>
+
+                                <DataGridTextColumn
+                                    MaxWidth="200"
+                                    Binding="{Binding NguoiDung.TenND}"
+                                    Header="Người bán"
+                                    IsReadOnly="False" />
+                                <DataGridTextColumn
+
+                                    Binding="{Binding NgayBan, StringFormat=dd-MMMM-yy}"
+                                    Header="Ngày bán"
+                                    IsReadOnly="False" />
+                                <DataGridTextColumn
+                                    Binding="{Binding TongTien}"
+                                    Header="Tổng hóa đơn"
+                                    IsReadOnly="False" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <DockPanel Margin="40">
+                        <DockPanel  DockPanel.Dock="Top">
+                            <DockPanel DockPanel.Dock="Right">
+                                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                    <TextBlock
+                                    Margin="1"
+                                    FontSize="15"
+                                    Text="Tổng tiền:     " />
+                                    <TextBlock FontSize="15" Text="{Binding TongHoaDon}" />
+                                </StackPanel>
+                                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                    <TextBlock FontSize="15" Text="Nợ:                " />
+                                    <TextBlock FontSize="15" Text="{Binding SelectedItem.SoTienNo, ElementName=dataKhachHang}" />
+                                </StackPanel>
+                            </DockPanel>
+                            <Grid />
+                        </DockPanel>
+                    </DockPanel>
+                </DockPanel>
+            </DockPanel>
+        </materialDesign:Card>
+        <DockPanel LastChildFill="True">
+            <materialDesign:ColorZone
+                Width="400"
+                Margin="10"
+                Padding="8,4,8,4"
+                Panel.ZIndex="1"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                CornerRadius="2"
+                DockPanel.Dock="Top"
+                Mode="Standard">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Command="{Binding TimKiemCommand}"
+                        CommandParameter="{Binding ElementName=pnlHienThiSach}"
+                        Style="{DynamicResource MaterialDesignToolButton}">
+                        <materialDesign:PackIcon Kind="BookSearch" Opacity=".56" />
+                    </Button>
+                    <TextBox
+                        Grid.Column="1"
+                        MinWidth="200"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="Nhập số điện thoại hoặc họ tên để tìm kiếm"
+                        materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                        BorderThickness="0"
+                        Text="{Binding TextTimKiem, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </materialDesign:ColorZone>
+            <ScrollViewer Margin="5" Padding="10,0,10,0">
+                <DataGrid
+                    x:Name="dataKhachHang"
+                    VerticalContentAlignment="Top"
+                    AutoGenerateColumns="False"
+                    Background="Transparent"
+                    CanUserAddRows="False"
+                    CanUserSortColumns="True"
+                    HeadersVisibility="All"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ListKH}"
+                    SelectedItem="{Binding SelectedKhachHang, UpdateSourceTrigger=PropertyChanged}">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding TenKH}"
+                            Header="Tên khách hàng"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding SDT}"
+                            Header="Số điện thoại"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding Email}"
+                            Header="Email"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding SoTienNo}"
+                            Header="Nợ"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding HoaDons.Count}"
+                            Header="Đơn hàng"
+                            IsReadOnly="False" />
+                        <DataGridTextColumn
+                            Binding="{Binding TongSoTien}"
+                            Header="Tổng chi tiêu"
+                            IsReadOnly="False" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,4 @@
+admin : admin1 - 123456
+        admin2 - 12356
+Nhân Viên Kho : nv1 - 123456
+Nhân viên bán hàng : nv2 - 123456

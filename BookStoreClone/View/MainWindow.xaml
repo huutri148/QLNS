@@ -1,0 +1,355 @@
+﻿<Window
+    x:Class="BookStoreClone.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:BookStoreClone"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:BookStoreClone.View"
+    Name="mainWindow"
+    Title="MainWindow"
+    WindowStartupLocation="CenterScreen"
+    Width="1542"
+    Height="1000"
+    DataContext="{StaticResource MainVM}"
+    Opacity="90"
+    
+   
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=mainWindow}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel Background="Transparent">
+        <materialDesign:Card Margin="5,0,5,5" DockPanel.Dock="Left">
+            <!--  TabMenu  -->
+            <Expander Background="Transparent" ExpandDirection="Right">
+                <Expander.Header>
+                    <materialDesign:PackIcon Kind="Menu" />
+                </Expander.Header>
+                <Grid Width="255" DockPanel.Dock="Left">
+                    <StackPanel
+                        x:Name="tabTinhNang"
+                        VerticalAlignment="Top"
+                        materialDesign:ThemeAssist.Theme="Light">
+                        <StackPanel>
+                            <!--  Ẩn tab  -->
+                            <Grid Height="70" />
+
+                            <!--  tab Tìm kiếm  -->
+                            <StackPanel Height="70">
+                                <StackPanel Margin="15">
+                                    <TextBox
+                                        x:Name="txbSearch"
+                                        Height="auto"
+                                        VerticalAlignment="Center"
+                                        materialDesign:HintAssist.Hint="Tìm kiếm"
+                                        AcceptsReturn="True"
+                                        Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                        Text="{Binding TextTimKiem, UpdateSourceTrigger=PropertyChanged}"
+                                        TextWrapping="Wrap"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TextChangedCommand}" CommandParameter="{Binding ElementName=treeViewTinhNang}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <TreeView x:Name="treeViewTinhNang">
+                                <TreeViewItem Header="Tìm kiếm sách" IsSelected="True" />
+                                <TreeViewItem Header="Quản Lý" Visibility="{Binding SetQuanLy}">
+
+                                    <TreeViewItem Header="Dữ Liệu Sách" />
+                                    <TreeViewItem Header="Khách Hàng" />
+                                    
+                                </TreeViewItem>
+                                <TreeViewItem Header="Kinh Doanh" Visibility="{Binding SetKinhDoanh}">
+                                    <TreeViewItem Header="Nhập Sách" />
+                                    <TreeViewItem Header="Lập Hóa Đơn Bán Sách" />
+                                    <TreeViewItem Header="Lập Phiếu Thu Tiền" />
+                                </TreeViewItem>
+                                <TreeViewItem Header="Báo Cáo" Visibility="{Binding SetQuanLy}">
+                                   
+                                </TreeViewItem>
+                                <TreeViewItem Header="Quản Lý Hệ Thống" Visibility="{Binding SetAdmin}" />
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectedItemChanged">
+                                        <i:InvokeCommandAction Command="{Binding ChonTinhNangCommand}" CommandParameter="{Binding ElementName=treeViewTinhNang}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TreeView>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Expander>
+        </materialDesign:Card>
+
+        <DockPanel
+            Margin="0,0,5,0"
+            Background="AliceBlue"
+            DockPanel.Dock="Top">
+            <!--<Image Height="70" Width="120" Stretch="Fill" Source="C:\Users\IzY\Desktop\54524755_2213071372116402_6822513609340354560_n.png"></Image>-->
+            <TextBlock DockPanel.Dock="Left" Margin="40,0,0,0" FontSize="40" Text="{Binding TitleApp}"  FontFamily="UTM Nyala fix v2" Foreground="#FF4725BB" ></TextBlock>
+            <Grid
+                Height="50"
+                Background="Transparent"
+                DockPanel.Dock="Right">
+                
+                <StackPanel
+                    Grid.RowSpan="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <WrapPanel Orientation="Horizontal">
+                        <materialDesign:PopupBox
+                            x:Name="pbChucNangTaiKhoan"
+                            Width="0"
+                            Height="0"
+                            Margin="0,20,0,0"
+                            IsPopupOpen="{Binding SetChucNang,Mode=OneTime}"
+                            PlacementMode="BottomAndAlignCentres"
+                            StaysOpen="False">
+                            <DockPanel
+                                Background="AliceBlue" >
+                                <Button DockPanel.Dock="Top" Command="{Binding ThongTinTKCommand}"
+                                        Visibility="{Binding VisibilityThongTinTaiKhoan}"
+                                        CommandParameter="{Binding ElementName=pbThongTinTaiKhoan}">
+                                    <StackPanel  Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            Width="22"
+                                            Height="22"
+                                            Kind="FaceProfile"
+                                            Margin="0,10,0,0"
+                                            VerticalAlignment="Top"/>
+
+                                        <TextBlock  Margin="10,10,0,0"> Thông tin tài khoản</TextBlock>
+                                        <materialDesign:PackIcon
+                                                     
+                                            Width="22"
+                                            Height="22"
+                                            Kind="ArrowRight"
+                                            Margin="10,10,5,0"
+                                            VerticalAlignment="Top"/>
+
+                                    </StackPanel>
+                                </Button>
+                                <Button DockPanel.Dock="Top"  Margin="0,10,0,0"
+                                        Command="{Binding DangXuatCommand}"
+                                        CommandParameter="{Binding ElementName=mainWindow}">
+                                    <StackPanel  Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            Width="22"
+                                            Height="22"
+                                            Kind="ExitRun"
+                                            Margin="0,10,0,0"
+                                            VerticalAlignment="Top"/>
+                                        <TextBlock  Margin="10,10,0,0"
+                                                    Text="Thoát" VerticalAlignment="Top ">
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Button>
+
+                            </DockPanel>
+                        </materialDesign:PopupBox>
+                        <Button
+                            Margin="5"
+                            RenderTransformOrigin="-4.018,0.113"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                            Command="{Binding ChucNangTKCommand}"
+                           
+                            CommandParameter="{Binding ElementName=pbChucNangTaiKhoan}"
+                            >
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="Account" />
+                        </Button>
+                        <materialDesign:PopupBox
+                            x:Name="pbThongTinTaiKhoan"
+                            Width="0"
+                            Height="0"
+                            Margin="0,20,20,0"
+                            
+                            PlacementMode="BottomAndAlignCentres"
+                            IsPopupOpen="{Binding SetpbThongTinTK,Mode=OneWay,NotifyOnSourceUpdated=True}"
+                            >
+                            <DockPanel>
+                                
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="200"></ColumnDefinition>
+                                        <ColumnDefinition Width="250*"></ColumnDefinition>
+
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Margin="0,10,0,10">Họ Tên:</Label>
+                                    <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Margin="0,10,0,10">Email:</Label>
+                                    <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Margin="0,10,0,10">Số Điện Thoại:</Label>
+                                    <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Margin="0,10,0,10">Giới Tính:</Label>
+                                    <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Margin="0,10,0,10">Ngày Sinh:</Label>
+                                    <TextBox Grid.Row="0" Grid.Column="1"
+                                             x:Name="NameTextBox"
+                                             materialDesign:HintAssist.Hint="Họ Tên" HorizontalAlignment="Left" BorderBrush="Black"  FontSize="14" MaxWidth="250" MinWidth="200" Height="30" Text="{Binding User.TenND,Mode=TwoWay}">
+                                    </TextBox>
+
+                                    <TextBox Grid.Row="1" Grid.Column="1"
+                                             x:Name="txtEmail"
+                                             materialDesign:HintAssist.Hint="Email" BorderBrush="Black" HorizontalAlignment="Left"  Height="28" Margin="5,12,10,10" FontSize="14" MaxWidth="250" MinWidth="200"  />
+                                    <TextBox Grid.Row="2" Grid.Column="1"
+                                             x:Name="txtSDT"
+                                             materialDesign:HintAssist.Hint="Số Điện Thoại" HorizontalAlignment="Left" BorderBrush="Black"  Height="28" Margin="5,12,10,10" FontSize="14"  MaxWidth="250" MinWidth="200" Text="{Binding User.SDT,Mode=TwoWay}">
+                                    </TextBox>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+                                        <RadioButton FontSize="17" Margin="10,0,0,0" IsChecked="{Binding Nam,Mode=TwoWay}" >Nam</RadioButton>
+                                        <RadioButton FontSize="17" Margin="20,0,0,0" IsChecked="{Binding Nu,Mode=TwoWay}">Nữ</RadioButton>
+                                    </StackPanel>
+                                    <DatePicker    materialDesign:HintAssist.Hint="Ngày Sinh" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Margin="5,12,10,10" FontSize="12"  MaxWidth="250" MinWidth="200" Height="60" Text="{Binding User.NgaySinh}"/>
+                                    <materialDesign:Card Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="30,10,30,10"
+                                                         Background="{DynamicResource MaterialDesignBackground}">
+                                        <StackPanel>
+                                            <Expander
+                                                HorizontalAlignment="Stretch"
+                                                Header="Thay đổi mật khẩu">
+                                                <StackPanel
+                                                    Orientation="Vertical"
+                                                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                                    Margin="24,8,24,16">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label FontSize="14">Mật Khẩu Cũ</Label>
+                                                        <PasswordBox
+                                                            x:Name="pbMatKhauCu"
+                                                            materialDesign:HintAssist.Hint="Mật Khẩu Cũ" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Black" Width="228" Height="28" Margin="10,0,10,10" FontSize="14" >
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="PasswordChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding PasswordCuChangedCommand}" CommandParameter="{Binding ElementName=pbMatKhauCu}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </PasswordBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label FontSize="14" Margin="0,3,0,0">Mật Khẩu Mới</Label>
+                                                        <PasswordBox
+                                                            x:Name="pbMatKhauMoi"
+                                                            materialDesign:HintAssist.Hint="Mật Khẩu Mới" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Black" Width="228" Height="28" Margin="10,5,10,10" FontSize="14">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="PasswordChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding PasswordMoiChangedCommand}" CommandParameter="{Binding ElementName=pbMatKhauMoi}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </PasswordBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label FontSize="14" Margin="0,8,0,0" >Xác Nhận</Label>
+                                                        <PasswordBox
+                                                            x:Name="pbXNMatKhauMoi"
+                                                            materialDesign:HintAssist.Hint="Mật Khẩu Mới" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Black" Width="228" Height="28" Margin="20,5,10,10" FontSize="14" >
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="PasswordChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding XNPasswordChangedCommand}" CommandParameter="{Binding ElementName=pbXNMatKhauMoi}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </PasswordBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Expander>
+                                        </StackPanel>
+                                    </materialDesign:Card>
+                                    <DockPanel Width="124" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,10,0,10" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <Button
+                                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                            Height="40"
+                                            Command="{Binding CapNhatTKCommand}"
+                                            CommandParameter="{Binding ElementName=pbThongTinTaiKhoan}"
+                                            materialDesign:ButtonAssist.CornerRadius="25"
+                                            ToolTip="Lưu những thay đổi">
+                                            <TextBlock
+                                                Text="Cập Nhật" />
+                                        </Button>
+                                    </DockPanel>
+                                </Grid>
+                            </DockPanel>
+                        </materialDesign:PopupBox>
+                    </WrapPanel>
+                    <Button
+                        Width="60"
+                        Height="40"
+                        Margin="5"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Command="{Binding Minimize}"
+                        CommandParameter="{Binding ElementName=mainWindow}">
+                        <materialDesign:PackIcon
+                            Width="22"
+                            Height="22"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Foreground="Red"
+                            Kind="WindowMinimize" />
+                    </Button>
+                    <Button
+                        Width="60"
+                        Height="40"
+                        Margin="5"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Command="{Binding Maximize}"
+                        CommandParameter="{Binding ElementName=mainWindow}">
+
+                        <materialDesign:PackIcon
+                            Width="22"
+                            Height="22"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Foreground="Red"
+                            Kind="{Binding Maximize_Icon}" />
+                    </Button>
+                    <Button
+                        Width="60"
+                        Height="40"
+                        Margin="5"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Command="{Binding CloseApp}"
+                        CommandParameter="{Binding ElementName=mainWindow}">
+                        <materialDesign:PackIcon
+                            Width="22"
+                            Height="22"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Foreground="Red"
+                            Kind="Close" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid />
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding MouseMoveWindowCommand}" CommandParameter="{Binding ElementName=mainWindow}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </DockPanel>
+
+        <Grid x:Name="pnlContent">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Loaded">
+                    <i:InvokeCommandAction Command="{Binding LoadContentCommand}" CommandParameter="{Binding ElementName=pnlContent}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Grid>
+    </DockPanel>
+</Window>
